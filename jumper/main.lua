@@ -7,8 +7,10 @@ function love.load()
   player.width = 20
   player.height = 50
   player.y_velocity = 0
+  player.terminal_velocity = 20
+  player.jump_strength = -200
 
-  gravity = 10
+  gravity = 20
 
   platforms = {}
 
@@ -27,23 +29,32 @@ function love.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
+  if scancode == "r" then
+    local res = player_raycast_down(player.x+(player.width/2), player.y+(player.height/2))
+    print(res)
+  end
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
   --print("clicked the mouse.")
   if player.touch_ground == true then
-    player.y_velocity = -10
+    player.y_velocity = player.jump_strength
     player.touch_ground = false
   end
 end
 
 function updatePlayer(dt)
-  player.y_velocity = player.y_velocity + gravity * dt
+  player.y_velocity = player.y_velocity + (gravity * dt)
+  --terminal velocity
+  if player.y_velocity > player.terminal_velocity then
+    player.y_velocity = player.terminal_velocity
+  end
+
   -- am I about to hit something?
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
-    player.y = player.y + player.y_velocity
+    player.y = player.y + (player.y_velocity * dt)
   end
 end
 
@@ -88,11 +99,8 @@ function checkCollisions()
 
     if plat_left < player_right and plat_right > player_left and plat_top < player_bottom and plat_bottom > player_top then
       print("COLLIDE")
-    elseif
-      plat_left < player_right and plat_right > player_left and plat_top < player_bottom + 10 and
-        plat_bottom > player_top
-     then
-      --print("feet touch")
+    elseif plat_left < player_right and plat_right > player_left and plat_top < player_bottom + 20 and plat_bottom > player_top then
+      --print("downward check")
       player.touch_ground = true
     -- else
     --   player.touch_ground = false
@@ -103,4 +111,28 @@ function checkCollisions()
 end
 
 function is_player_on_ground()
+end
+
+function player_raycast_down(playermidx, playermidy)
+  -- extend a ray downward (positive y)
+  for ray=player.height/2,600,5 do
+    --is playerx, playermidy + ray inside a collision box
+    --print(ray)
+    for i, plat in ipairs(platforms) do
+      -- does this collide with the player?
+      local plat_left, plat_right, plat_top, plat_bottom
+      plat_left = plat.x
+      plat_right = plat.x + plat.width
+      plat_top = plat.y
+      plat_bottom = plat.y + plat.height
+
+      if playermidx < plat_right and playermidx > plat_left and playermidy + ray > plat_top and playermidy + ray < plat_bottom then
+        -- ray hit platform. return useful data?
+        return ray
+      end
+
+    end
+  end
+
+  return false
 end
