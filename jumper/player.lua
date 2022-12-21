@@ -37,6 +37,12 @@ function updatePlayer(dt)
   if joystick:isGamepadDown("dpright") then
     moveright(dt)
   end
+  function love.joystickpressed(joystick, button)
+    if joystick:isDown(1) and not joystick:isGamepadDown("dpright") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpup") and not joystick:isGamepadDown("dpdown") then
+      jump()
+      print('jump')
+    end
+  end
 
   if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpright") then
     horiz_friction(dt)

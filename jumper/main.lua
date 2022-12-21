@@ -38,9 +38,3 @@ function love.mousepressed(x, y, button, istouch, presses)
   --print("clicked the mouse.")
   jump()
 end
-
-function love.joystickpressed(joystick, button)
-  if joystick:isGamepadDown('a') then
-    jump()
-  end
-end
