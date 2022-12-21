@@ -39,7 +39,7 @@ function love.mousepressed(x, y, button, istouch, presses)
   jump()
 end
 
-function love.gamepadpressed(button)
+function love.joystickpressed(button)
   if joystick:isDown(1) then
     jump()
   end

@@ -31,14 +31,14 @@ function updatePlayer(dt)
     moveright(dt)
   end
 
-  if joystick:getGamepadAxis("leftx") < 0 then
+  if joystick:isGamepadDown("dpleft") then
     moveleft(dt)
   end
-  if joystick:getGamepadAxis("leftx") > 0 then
+  if joystick:isGamepadDown("dpright") then
     moveright(dt)
   end
 
-  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:getGamepadAxis("leftx") then
+  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpright") then
     horiz_friction(dt)
   end
 
