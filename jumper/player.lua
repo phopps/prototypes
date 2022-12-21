@@ -31,20 +31,14 @@ function updatePlayer(dt)
     moveright(dt)
   end
 
-  if joystick:isGamepadDown("dpleft") then
+  if joystick:getGamepadAxis("leftx") < 0 then
     moveleft(dt)
   end
-  if joystick:isGamepadDown("dpright") then
+  if joystick:getGamepadAxis("leftx") > 0 then
     moveright(dt)
   end
-  function love.joystickpressed(joystick, button)
-    if joystick:isDown(1) then
-      jump()
-      -- print('jump')
-    end
-  end
 
-  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpright") then
+  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:getGamepadAxis("leftx") then
     horiz_friction(dt)
   end
 
