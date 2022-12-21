@@ -9,7 +9,7 @@ function love.load()
 
   platforms = {}
 
-  createPlatform(0, 580, 800, 20)
+  createPlatform(0, 580, 800, 20) -- floor.
 end
 
 function love.update(dt)
@@ -22,9 +22,8 @@ function love.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
-  if scancode == "r" then
-    local res = player_raycast_down()
-    print(res)
+  if scancode == "w" or scancode == "space" then
+    jump()
   end
 end
 
