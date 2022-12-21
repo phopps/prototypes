@@ -40,7 +40,7 @@ function updatePlayer(dt)
   function love.joystickpressed(joystick, button)
     if joystick:isDown(1) and not joystick:isGamepadDown("dpright") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpup") and not joystick:isGamepadDown("dpdown") then
       jump()
-      print('jump')
+      -- print('jump')
     end
   end
 
