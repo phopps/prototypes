@@ -30,9 +30,18 @@ function updatePlayer(dt)
   if love.keyboard.isDown("d") then
     moveright(dt)
   end
-  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") then
+
+  if joystick:isGamepadDown("dpleft") then
+    moveleft(dt)
+  end
+  if joystick:isGamepadDown("dpright") then
+    moveright(dt)
+  end
+
+  if not love.keyboard.isDown("d") and not love.keyboard.isDown("a") and not joystick:isGamepadDown("dpleft") and not joystick:isGamepadDown("dpright") then
     horiz_friction(dt)
   end
+
   if player.x_velocity > 0 and player.x_velocity > player.x_max_speed then
     player.x_velocity = player.x_max_speed
   elseif player.x_velocity < 0 and player.x_velocity < player.x_max_speed * -1 then
@@ -99,7 +108,6 @@ function moveside(whichside, dt)
     player.x_velocity = whichside * player.x_max_speed / 5
   end
   player.x_velocity = player.x_velocity + (whichside * player.x_accel * dt)
-
 end
 
 function horiz_friction(dt)

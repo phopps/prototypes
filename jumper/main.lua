@@ -5,6 +5,8 @@ function love.load()
   love.window.setTitle("Jumper")
 
   init_player()
+  local joysticks = love.joystick.getJoysticks()
+  joystick = joysticks[1]
 
   gravity = 200
 
@@ -35,4 +37,10 @@ end
 function love.mousepressed(x, y, button, istouch, presses)
   --print("clicked the mouse.")
   jump()
+end
+
+function love.joystickpressed(joystick, button)
+  if joystick:isGamepadDown('a') then
+    jump()
+  end
 end
