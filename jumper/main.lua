@@ -8,8 +8,12 @@ function love.load()
   gravity = 200
 
   platforms = {}
+  walls = {}
 
   createPlatform(0, 580, 800, 20) -- floor.
+  createPlatform(400, 380, 200, 20)
+  createPlatform(0, 440, 200, 20)
+  createPlatform(100, 500, 200, 20)
 end
 
 function love.update(dt)
@@ -30,22 +34,4 @@ end
 function love.mousepressed(x, y, button, istouch, presses)
   --print("clicked the mouse.")
   jump()
-end
-
-function drawPlatforms()
-  love.graphics.setColor(0, 1, 0, 1)
-  for i, plat in ipairs(platforms) do
-    love.graphics.rectangle("fill", plat.x, plat.y, plat.width, plat.height)
-  end
-end
-
-function createPlatform(x, y, width, height)
-  local p = {}
-  p.x = x
-  p.y = y
-  p.width = width
-  p.height = height
-  -- platform height must be > 5 pixels because of player_raycast_down
-
-  table.insert(platforms, p)
 end

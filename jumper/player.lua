@@ -15,6 +15,12 @@ function init_player()
   player.about_to_land = false
 end
 
+function ice_physics()
+  player.x_accel = 100
+  player.x_friction = 100
+  player.x_max_speed = 200
+end
+
 function updatePlayer(dt)
 
   --Horizontal stuff
@@ -52,13 +58,17 @@ function updatePlayer(dt)
     player.about_to_land = false
   end
 
+  if player.touch_ground == true and dist > 10 then
+    player.touch_ground = false
+  end
+
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
     player.y = player.y + (player.y_velocity * dt)
   end
 
-  checkCollisions()
+  checkPlatformCollisions()
 end
 
 function drawPlayer()
@@ -94,7 +104,7 @@ end
 
 function horiz_friction(dt)
   -- every frame, x_velocity decays by half accel
-  print(player.x_velocity)
+  --print(player.x_velocity)
   if player.x_velocity > player.x_vel_deadzone then
     --subtract
     player.x_velocity = player.x_velocity + (-1 * player.x_friction * dt)
@@ -110,7 +120,9 @@ function is_player_on_ground()
 end
 
 function player_raycast_down()
-  local playermidx = player.x + (player.width/2)
+  --local playermidx = player.x + (player.width/2)
+  local player_left = player.x
+  local player_right = player.x+player.width
   local player_bottom = player.y + player.height
   -- extend a ray downward (positive y)
   for ray=0,600,5 do -- make sure platform height is > 5 pixels
@@ -124,7 +136,7 @@ function player_raycast_down()
       plat_top = plat.y
       plat_bottom = plat.y + plat.height
 
-      if playermidx < plat_right and playermidx > plat_left and player_bottom + ray > plat_top and player_bottom + ray < plat_bottom then
+      if player_left < plat_right and player_right > plat_left and player_bottom + ray > plat_top and player_bottom + ray < plat_bottom then
         -- ray hit platform. return useful data?
         return ray
       end
@@ -135,7 +147,7 @@ function player_raycast_down()
   return false
 end
 
-function checkCollisions()
+function checkPlatformCollisions()
   -- check intersections between - player and each platform
 
   local player_left, player_right, player_top, player_bottom
@@ -150,10 +162,10 @@ function checkCollisions()
     plat_left = plat.x
     plat_right = plat.x + plat.width
     plat_top = plat.y
-    plat_bottom = plat.y + plat.height
+    plat_bottom = plat.y + 5
 
-    if plat_left < player_right and plat_right > player_left and plat_top < player_bottom and plat_bottom > player_top then
-      print("COLLIDE")
+    if plat_left < player_right and plat_right > player_left and plat_top < player_bottom and plat_bottom > player_bottom-5 then
+      --print("COLLIDE")
       -- print(player.about_to_land)
       -- print(player.y_velocity)
       if player.about_to_land and player.y_velocity > 0 then
