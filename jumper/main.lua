@@ -1,4 +1,5 @@
 require('player')
+require('terrain')
 
 function love.load()
   love.window.setTitle("Jumper")
