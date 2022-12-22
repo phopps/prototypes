@@ -11,14 +11,7 @@ function init_terrain()
   map.top_margin = 100
 
   createPlatform(0, 3980, 800, 20) -- floor.
-  -- createPlatform(400, 3780, 200, 20)
-  -- createPlatform(0, 3840, 200, 20)
-  -- createPlatform(100, 3900, 200, 20)
-
-  -- createPlatform(0, 3700, 200, 20)
-  -- createPlatform(0, 3620, 200, 20)
-  -- createPlatform(0, 3540, 200, 20)
-  -- createPlatform(0, 3460, 200, 20)
+  
   buildMap()
   paintMap()
 end
@@ -29,7 +22,6 @@ function buildMap()
     local width = love.math.random(100,400)
     createPlatform(x, (map.height-y), width, 20)
 
-    --love.math.random(10,20)
   end
 end
 

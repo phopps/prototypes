@@ -131,7 +131,7 @@ function player_raycast_down()
   local player_right = player.x+player.width
   local player_bottom = player.y + player.height
   -- extend a ray downward (positive y)
-  for ray=0,600,5 do -- make sure platform height is > 5 pixels
+  for ray=0,300,4 do -- make sure platform height is > 5 pixels
     --is playerx, playermidy + ray inside a collision box
     --print(ray)
     for i, plat in ipairs(platforms) do
