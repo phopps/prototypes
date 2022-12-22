@@ -13,6 +13,10 @@ function init_player()
   player.terminal_velocity = 400
   player.jump_strength = -300
   player.about_to_land = false
+  player.multijump = {}
+  player.multijump.enabled = true
+  player.multijump.maximum = 2
+  player.multijump.available = 2
 end
 
 function ice_physics()
@@ -176,6 +180,9 @@ function checkPlatformCollisions()
       -- print(player.y_velocity)
       if player.about_to_land and player.y_velocity > 0 then
         player.touch_ground = true
+        if player.multijump.enabled then
+          player.multijump.available = player.multijump.maximum
+        end
         player.y = plat_top - (player.height + 1)
       end
     -- elseif plat_left < player_right and plat_right > player_left and plat_top < player_bottom + 20 and plat_bottom > player_top then
