@@ -1,4 +1,5 @@
 require('player')
+require('terrain')
 
 function love.load()
   love.window.setTitle("Jumper")
@@ -7,13 +8,7 @@ function love.load()
 
   gravity = 200
 
-  platforms = {}
-  walls = {}
-
-  createPlatform(0, 580, 800, 20) -- floor.
-  createPlatform(400, 380, 200, 20)
-  createPlatform(0, 440, 200, 20)
-  createPlatform(100, 500, 200, 20)
+  init_terrain()
 end
 
 function love.update(dt)
@@ -21,8 +16,9 @@ function love.update(dt)
 end
 
 function love.draw()
+  drawMap()
   drawPlayer()
-  drawPlatforms()
+  -- drawPlatforms()
 end
 
 function love.keypressed(key, scancode, isrepeat)
