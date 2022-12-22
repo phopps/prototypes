@@ -65,7 +65,11 @@ function updatePlayer(dt)
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
-    player.y = player.y + (player.y_velocity * dt)
+    if player.y <= map.top_margin and player.y_velocity < 0 then
+      map.ypos = map.ypos - (player.y_velocity * dt)
+    else
+      player.y = player.y + (player.y_velocity * dt)
+    end
   end
 
   checkPlatformCollisions()

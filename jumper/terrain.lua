@@ -15,6 +15,11 @@ function init_terrain()
   createPlatform(0, 3840, 200, 20)
   createPlatform(100, 3900, 200, 20)
 
+  createPlatform(0, 3700, 200, 20)
+  createPlatform(0, 3620, 200, 20)
+  createPlatform(0, 3540, 200, 20)
+  createPlatform(0, 3460, 200, 20)
+
   paintMap()
 end
 
