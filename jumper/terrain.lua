@@ -8,6 +8,7 @@ function init_terrain()
   map.height = 6000
   map.canvas = love.graphics.newCanvas(map.width, map.height)
   map.ypos = -1 * (map.height - screenHeight)
+  map.initial_ypos = map.ypos
   map.top_margin = 100
 
   createPlatform(0, (map.height - 20), screenWidth, 20) -- floor.

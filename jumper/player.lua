@@ -71,7 +71,7 @@ function updatePlayer(dt)
   else
     if player.y <= map.top_margin and player.y_velocity < 0 then
       map.ypos = map.ypos - (player.y_velocity * dt)
-    elseif player.y >= 500 and map.ypos > -3400 and player.y_velocity > 0 then
+    elseif player.y >= 500 and map.ypos > map.initial_ypos and player.y_velocity > 0 then
       map.ypos = map.ypos - (player.y_velocity * dt)
     else
       player.y = player.y + (player.y_velocity * dt)
