@@ -65,7 +65,11 @@ function updatePlayer(dt)
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
-    player.y = player.y + (player.y_velocity * dt)
+    if player.y <= map.top_margin and player.y_velocity < 0 then
+      map.ypos = map.ypos - (player.y_velocity * dt)
+    else
+      player.y = player.y + (player.y_velocity * dt)
+    end
   end
 
   checkPlatformCollisions()
@@ -133,8 +137,8 @@ function player_raycast_down()
       local plat_left, plat_right, plat_top, plat_bottom
       plat_left = plat.x
       plat_right = plat.x + plat.width
-      plat_top = plat.y
-      plat_bottom = plat.y + plat.height
+      plat_top = plat.y + map.ypos
+      plat_bottom = plat.y + plat.height + map.ypos
 
       if player_left < plat_right and player_right > plat_left and player_bottom + ray > plat_top and player_bottom + ray < plat_bottom then
         -- ray hit platform. return useful data?
@@ -161,8 +165,8 @@ function checkPlatformCollisions()
     local plat_left, plat_right, plat_top, plat_bottom
     plat_left = plat.x
     plat_right = plat.x + plat.width
-    plat_top = plat.y
-    plat_bottom = plat.y + 5
+    plat_top = plat.y + map.ypos
+    plat_bottom = plat.y + 5 + map.ypos
 
     if plat_left < player_right and plat_right > player_left and plat_top < player_bottom and plat_bottom > player_bottom-5 then
       --print("COLLIDE")
