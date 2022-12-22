@@ -6,7 +6,7 @@ function love.load()
 
   init_player()
 
-  gravity = 200
+  gravity = 300
 
   init_terrain()
 end

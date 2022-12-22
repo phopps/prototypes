@@ -10,8 +10,8 @@ function init_player()
   player.x_friction = 500
   player.x_max_speed = 200
   player.x_vel_deadzone = 15
-  player.terminal_velocity = 200
-  player.jump_strength = -200
+  player.terminal_velocity = 400
+  player.jump_strength = -300
   player.about_to_land = false
 end
 
@@ -58,7 +58,7 @@ function updatePlayer(dt)
     player.about_to_land = false
   end
 
-  if player.touch_ground == true and dist > 10 then
+  if dist == false or (player.touch_ground == true and dist > 10) then
     player.touch_ground = false
   end
 
@@ -66,6 +66,8 @@ function updatePlayer(dt)
     player.y_velocity = 0
   else
     if player.y <= map.top_margin and player.y_velocity < 0 then
+      map.ypos = map.ypos - (player.y_velocity * dt)
+    elseif player.y >= 500 and map.ypos > -3400 and player.y_velocity > 0 then
       map.ypos = map.ypos - (player.y_velocity * dt)
     else
       player.y = player.y + (player.y_velocity * dt)
@@ -129,7 +131,7 @@ function player_raycast_down()
   local player_right = player.x+player.width
   local player_bottom = player.y + player.height
   -- extend a ray downward (positive y)
-  for ray=0,600,5 do -- make sure platform height is > 5 pixels
+  for ray=0,300,4 do -- make sure platform height is > 5 pixels
     --is playerx, playermidy + ray inside a collision box
     --print(ray)
     for i, plat in ipairs(platforms) do
