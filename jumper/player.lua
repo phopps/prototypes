@@ -153,6 +153,13 @@ function player_raycast_down()
   return false
 end
 
+function player_raycast_left()
+end
+
+function player_raycast_right()
+end
+
+
 function checkPlatformCollisions()
   -- check intersections between - player and each platform
 
@@ -187,4 +194,8 @@ function checkPlatformCollisions()
   end
 
   --extra step to check player feet?
+end
+
+function checkWallCollisions()
+  -- check intersection between player and each wall
 end

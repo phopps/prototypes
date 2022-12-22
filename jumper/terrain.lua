@@ -11,7 +11,9 @@ function init_terrain()
   map.top_margin = 100
 
   createPlatform(0, 3980, 800, 20) -- floor.
-  
+  createWall(0, 0, 20, 3980) -- left wall
+  createWall(780, 0, 20, 3980)
+
   buildMap()
   paintMap()
 end
@@ -36,6 +38,7 @@ function paintMap()
   love.graphics.setColor(0.3,0.2,0.2,1)
   love.graphics.rectangle("fill", 0,0,map.width,map.height)
   drawPlatforms()
+  drawWalls()
   love.graphics.setCanvas()
 end
 
@@ -66,5 +69,12 @@ function drawWalls()
 end
 
 function createWall(x,y,width,height)
+  local w = {}
+  w.x = x
+  w.y = y
+  w.width = width
+  -- wall width must be > 5 pixels because of player raycast left and right (20px recommended)
+  w.height = height
 
+  table.insert(walls, w)
 end
