@@ -1,8 +1,12 @@
 require('player')
 require('terrain')
+require('util')
 
 function love.load()
   love.window.setTitle("Jumper")
+
+  screenWidth = 800
+  screenHeight = 600
 
   init_player()
 

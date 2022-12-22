@@ -87,9 +87,12 @@ function drawPlayer()
 end
 
 function jump()
-  if player.touch_ground == true then
+  if player.touch_ground == true or (player.multijump.enabled and player.multijump.available > 0) then
     player.y_velocity = player.jump_strength
     player.touch_ground = false
+    if player.multijump.enabled then
+      player.multijump.available = player.multijump.available - 1
+    end
   end
 end
 

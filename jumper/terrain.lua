@@ -4,13 +4,13 @@ function init_terrain()
   walls = {}
 
   map = {}
-  map.width = 800
-  map.height = 4000
+  map.width = screenWidth
+  map.height = 6000
   map.canvas = love.graphics.newCanvas(map.width, map.height)
-  map.ypos = -3400
+  map.ypos = -1 * (map.height - screenHeight)
   map.top_margin = 100
 
-  createPlatform(0, 3980, 800, 20) -- floor.
+  createPlatform(0, (map.height - 20), screenWidth, 20) -- floor.
   
   buildMap()
   paintMap()
@@ -33,8 +33,22 @@ end
 
 function paintMap()
   love.graphics.setCanvas(map.canvas)
-  love.graphics.setColor(0.3,0.2,0.2,1)
-  love.graphics.rectangle("fill", 0,0,map.width,map.height)
+  -- love.graphics.setColor(0.3,0.2,0.2,1)
+  -- love.graphics.rectangle("fill", 0,0,map.width,map.height)
+
+  -- local greyscale = gradient {
+  --   direction = 'vertical';
+  --   {0, 0, 0};
+  --   {255, 255, 255};
+  -- }
+  -- drawinrect(greyscale, 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+
+  rainbow = gradientMesh("vertical",
+    {0.1, 0.1, 0.2}, --sky
+    {0.7, 0.7, 1},
+    {0.3, 0.2, 0.2} --ground
+  )
+  love.graphics.draw(rainbow, 0, 0, 0, map.width, map.height)
   drawPlatforms()
   love.graphics.setCanvas()
 end
