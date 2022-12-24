@@ -10,9 +10,13 @@ function init_player()
   player.x_friction = 500
   player.x_max_speed = 200
   player.x_vel_deadzone = 15
-  player.terminal_velocity = 200
-  player.jump_strength = -200
+  player.terminal_velocity = 400
+  player.jump_strength = -300
   player.about_to_land = false
+  player.multijump = {}
+  player.multijump.enabled = true
+  player.multijump.maximum = 2
+  player.multijump.available = 2
 end
 
 function ice_physics()
@@ -58,14 +62,20 @@ function updatePlayer(dt)
     player.about_to_land = false
   end
 
-  if player.touch_ground == true and dist > 10 then
+  if dist == false or (player.touch_ground == true and dist > 10) then
     player.touch_ground = false
   end
 
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
-    player.y = player.y + (player.y_velocity * dt)
+    if player.y <= map.top_margin and player.y_velocity < 0 then
+      map.ypos = map.ypos - (player.y_velocity * dt)
+    elseif player.y >= 500 and map.ypos > map.initial_ypos and player.y_velocity > 0 then
+      map.ypos = map.ypos - (player.y_velocity * dt)
+    else
+      player.y = player.y + (player.y_velocity * dt)
+    end
   end
 
   checkPlatformCollisions()
@@ -77,9 +87,12 @@ function drawPlayer()
 end
 
 function jump()
-  if player.touch_ground == true then
+  if player.touch_ground == true or (player.multijump.enabled and player.multijump.available > 0) then
     player.y_velocity = player.jump_strength
     player.touch_ground = false
+    if player.multijump.enabled then
+      player.multijump.available = player.multijump.available - 1
+    end
   end
 end
 
@@ -125,7 +138,7 @@ function player_raycast_down()
   local player_right = player.x+player.width
   local player_bottom = player.y + player.height
   -- extend a ray downward (positive y)
-  for ray=0,600,5 do -- make sure platform height is > 5 pixels
+  for ray=0,300,4 do -- make sure platform height is > 5 pixels
     --is playerx, playermidy + ray inside a collision box
     --print(ray)
     for i, plat in ipairs(platforms) do
@@ -133,8 +146,8 @@ function player_raycast_down()
       local plat_left, plat_right, plat_top, plat_bottom
       plat_left = plat.x
       plat_right = plat.x + plat.width
-      plat_top = plat.y
-      plat_bottom = plat.y + plat.height
+      plat_top = plat.y + map.ypos
+      plat_bottom = plat.y + plat.height + map.ypos
 
       if player_left < plat_right and player_right > plat_left and player_bottom + ray > plat_top and player_bottom + ray < plat_bottom then
         -- ray hit platform. return useful data?
@@ -161,8 +174,8 @@ function checkPlatformCollisions()
     local plat_left, plat_right, plat_top, plat_bottom
     plat_left = plat.x
     plat_right = plat.x + plat.width
-    plat_top = plat.y
-    plat_bottom = plat.y + 5
+    plat_top = plat.y + map.ypos
+    plat_bottom = plat.y + 5 + map.ypos
 
     if plat_left < player_right and plat_right > player_left and plat_top < player_bottom and plat_bottom > player_bottom-5 then
       --print("COLLIDE")
@@ -170,6 +183,9 @@ function checkPlatformCollisions()
       -- print(player.y_velocity)
       if player.about_to_land and player.y_velocity > 0 then
         player.touch_ground = true
+        if player.multijump.enabled then
+          player.multijump.available = player.multijump.maximum
+        end
         player.y = plat_top - (player.height + 1)
       end
     -- elseif plat_left < player_right and plat_right > player_left and plat_top < player_bottom + 20 and plat_bottom > player_top then
