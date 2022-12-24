@@ -69,12 +69,17 @@ function updatePlayer(dt)
   if player.touch_ground == true and player.y_velocity > 0 then
     player.y_velocity = 0
   else
+    local change = (player.y_velocity * dt)
     if player.y <= map.top_margin and player.y_velocity < 0 then
-      map.ypos = map.ypos - (player.y_velocity * dt)
+      -- scroll up. Earn points?
+      addPoints(change)
+      map.ypos = map.ypos - change
     elseif player.y >= 500 and map.ypos > map.initial_ypos and player.y_velocity > 0 then
-      map.ypos = map.ypos - (player.y_velocity * dt)
+      -- scroll down. lose points?
+      subtractPoints(change * 1.5)
+      map.ypos = map.ypos - change
     else
-      player.y = player.y + (player.y_velocity * dt)
+      player.y = player.y + change
     end
   end
 

@@ -30,6 +30,7 @@ function drawMap()
   love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(map.canvas, 0, map.ypos)
+  love.graphics.setBlendMode("alpha")
 end
 
 function paintMap()
