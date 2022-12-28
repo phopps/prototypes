@@ -11,8 +11,10 @@ function init_terrain()
   map.initial_ypos = map.ypos
   map.top_margin = 100
 
-  createPlatform(0, (map.height - 20), screenWidth, 20) -- floor.
-  
+  createPlatform(0, (map.height - 20), screenWidth, 20) -- floor
+  createWall(0, 0, 20, (map.height - 20)) -- left wall
+  createWall((map.width - 20), 0, 20, (map.height - 20)) -- right wall
+
   buildMap()
   paintMap()
 end
@@ -52,6 +54,7 @@ function paintMap()
   )
   love.graphics.draw(rainbow, 0, 0, 0, map.width, map.height)
   drawPlatforms()
+  drawWalls()
   love.graphics.setCanvas()
 end
 
@@ -74,13 +77,18 @@ function createPlatform(x, y, width, height)
 end
 
 function drawWalls()
-
   love.graphics.setColor(0, 0.8, 0.5, 1)
-  for i, plat in ipairs(walls) do
-    love.graphics.rectangle("fill", plat.x, plat.y, plat.width, plat.height)
+  for i, wall in ipairs(walls) do
+    love.graphics.rectangle("fill", wall.x, wall.y, wall.width, wall.height)
   end
 end
 
-function createWall(x,y,width,height)
+function createWall(x, y, width, height)
+  local w = {}
+  w.x = x
+  w.y = y
+  w.width = width
+  w.height = height -- wall width must be greater than raycast increments?
 
+  table.insert(walls, w)
 end
