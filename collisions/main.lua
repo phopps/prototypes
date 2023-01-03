@@ -21,7 +21,7 @@ end
 
 function love.draw()
   local mode --We create a local variable called mode
-  if checkCollision(player, wall) then
+  if checkWallCollision(player, wall) then
     mode = "fill" --If there is collision, draw the rectangles filled
   else
     mode = "line" --else, draw the rectangles as a line
