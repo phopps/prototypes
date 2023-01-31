@@ -118,6 +118,17 @@ function moveside(whichside, dt)
   end
   player.x_velocity = player.x_velocity + (whichside * player.x_accel * dt)
 
+  -- player cannot move through left wall
+  if player.x < 20 then
+    player.x_velocity = 0
+    player.x = 20
+  end
+
+  -- player cannot move through right wall
+  if player.x + player.width > (map.width - 20) then
+    player.x_velocity = 0
+    player.x = (map.width - 20) - player.width
+  end
 end
 
 function horiz_friction(dt)
